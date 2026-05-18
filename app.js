@@ -143,11 +143,11 @@ const systemHighlights = [
     accentClass: "border-brand-100 bg-brand-50/60",
     badgeClass: "bg-brand-100 text-brand-700",
     summary:
-      "Hiện chưa có đủ thông tin về app tài xế của LiMiVN để có thể so sánh chi tiết tính năng với HUBI App.",
+      "Luồng tài xế của LiMiVN tập trung vào thanh toán tiền xăng và tích điểm, không có tính năng lên đơn hàng cho xe.",
     items: [
-      "Chưa có tài liệu hoặc mô tả đủ chi tiết về app dành cho tài xế.",
-      "Chưa thể xác định rõ luồng thao tác của tài xế trên LiMiVN.",
-      "Chưa đủ cơ sở để so sánh các tính năng chi tiết như chọn xe, chọn tuyến hoặc xuất hóa đơn.",
+      "Tập trung vào thanh toán tiền xăng.",
+      "Có chức năng tích điểm cho tài xế.",
+      "Không có tính năng lên đơn hàng cho xe.",
     ],
   },
   {
@@ -155,8 +155,10 @@ const systemHighlights = [
     accentClass: "border-emerald-100 bg-emerald-50/60",
     badgeClass: "bg-emerald-100 text-emerald-700",
     summary:
-      "Luồng tài xế trên HUBI App được mô tả rõ hơn, bao gồm lên đơn hàng, chọn xe, chọn tuyến và xuất hóa đơn sau khi tạo đơn.",
+      "Luồng tài xế trên HUBI App bao gồm thanh toán tiền, tích điểm và lên đơn hàng cho xe.",
     items: [
+      "Có chức năng thanh toán tiền.",
+      "Có chức năng tích điểm cho tài xế.",
       "Tài xế dùng HUBI App để lên đơn hàng.",
       "Có thể chọn xe khi lên đơn hàng.",
       "Có thể chọn tuyến khi lên đơn hàng.",
@@ -190,6 +192,7 @@ const hubiExtraFeatures = [
     title: "Chành xe",
     items: [
       "HUBI thể hiện mạnh hơn ở nghiệp vụ chành xe so với phạm vi thông tin hiện có của LiMiVN.",
+      "Ngoài thanh toán tiền và tích điểm, HUBI còn có thêm luồng lên đơn hàng cho xe.",
       "Tài xế dùng HUBI App để lên đơn hàng ngay trên app.",
       "Trong quá trình lên đơn, tài xế có thể chọn xe và chọn tuyến.",
       "Tuyến được phân thành 2 loại: cố định và không cố định.",
@@ -200,8 +203,9 @@ const hubiExtraFeatures = [
   {
     title: "Ý nghĩa khi so sánh",
     items: [
+      "Khác biệt chính là LiMiVN tập trung vào thanh toán tiền xăng và tích điểm, còn HUBI có thêm luồng lên đơn hàng cho xe.",
       "Đây là điểm nghiệp vụ nổi bật của HUBI ở luồng vận hành tài xế và chành xe.",
-      "Phía LiMiVN hiện chưa có đủ thông tin app tài xế để đối chiếu chi tiết theo cùng chiều sâu."
+      "Phần này thể hiện rõ lợi thế vận hành của HUBI khi so với phạm vi chức năng tài xế hiện có của LiMiVN."
     ],
   },
 ];
@@ -230,6 +234,7 @@ const statusMeta = {
 };
 
 const comparisonBody = document.querySelector("#comparison-body");
+const comparisonMobile = document.querySelector("#comparison-mobile");
 const systemCards = document.querySelector("#system-cards");
 const limiExtraFeaturesContainer = document.querySelector("#limi-extra-features");
 const hubiExtraFeaturesContainer = document.querySelector("#hubi-extra-features");
@@ -262,13 +267,45 @@ function renderTable(data) {
     .join("");
 }
 
+function renderMobileComparison(data) {
+  comparisonMobile.innerHTML = data
+    .map(
+      (item) => `
+        <article class="mobile-compare-card rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+          <div class="flex flex-wrap items-center gap-2">
+            <h3 class="text-base font-semibold text-slate-900">${item.name}</h3>
+            <span class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">
+              ${item.category}
+            </span>
+          </div>
+          <p class="mt-3 text-sm leading-6 text-slate-600">${item.note}</p>
+          <div class="mt-4 grid gap-3">
+            <div class="rounded-2xl bg-slate-50 p-3">
+              <p class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">LiMiVN</p>
+              <div class="mt-2">
+                <span class="${statusMeta[item.limi].className}">${statusMeta[item.limi].label}</span>
+              </div>
+            </div>
+            <div class="rounded-2xl bg-slate-50 p-3">
+              <p class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">HUBI</p>
+              <div class="mt-2">
+                <span class="${statusMeta[item.hubi].className}">${statusMeta[item.hubi].label}</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      `
+    )
+    .join("");
+}
+
 function renderSystemCards(data) {
   systemCards.innerHTML = data
     .map(
       (item) => `
-        <article class="rounded-2xl border p-6 ${item.accentClass}">
+        <article class="rounded-2xl border p-4 sm:p-6 ${item.accentClass}">
           <div class="flex items-center justify-between gap-3">
-            <h3 class="text-xl font-semibold text-slate-900">${item.system}</h3>
+            <h3 class="text-lg font-semibold text-slate-900 sm:text-xl">${item.system}</h3>
             <span class="rounded-full px-3 py-1 text-xs font-semibold ${item.badgeClass}">
               Hệ thống
             </span>
@@ -296,8 +333,8 @@ function renderLimiExtraFeatures(data) {
   limiExtraFeaturesContainer.innerHTML = data
     .map(
       (group) => `
-        <article class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-          <h3 class="text-lg font-semibold text-slate-900">${group.title}</h3>
+        <article class="rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-5">
+          <h3 class="text-base font-semibold text-slate-900 sm:text-lg">${group.title}</h3>
           <ul class="mt-4 space-y-3 text-sm leading-6 text-slate-700">
             ${group.items
               .map(
@@ -320,8 +357,8 @@ function renderHubiExtraFeatures(data) {
   hubiExtraFeaturesContainer.innerHTML = data
     .map(
       (group) => `
-        <article class="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
-          <h3 class="text-lg font-semibold text-slate-900">${group.title}</h3>
+        <article class="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 sm:p-5">
+          <h3 class="text-base font-semibold text-slate-900 sm:text-lg">${group.title}</h3>
           <ul class="mt-4 space-y-3 text-sm leading-6 text-slate-700">
             ${group.items
               .map(
@@ -341,6 +378,7 @@ function renderHubiExtraFeatures(data) {
 }
 
 renderTable(comparisonData);
+renderMobileComparison(comparisonData);
 renderSystemCards(systemHighlights);
 renderLimiExtraFeatures(limiExtraFeatures);
 renderHubiExtraFeatures(hubiExtraFeatures);

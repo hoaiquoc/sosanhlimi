@@ -63,3 +63,19 @@ body {
   border-radius: inherit;
   background: linear-gradient(90deg, rgb(37 99 235), rgb(124 58 237));
 }
+
+.mobile-compare-card {
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+}
+
+@media (max-width: 767px) {
+  body {
+    font-size: 15px;
+  }
+
+  .status-chip {
+    width: 100%;
+    justify-content: center;
+    padding: 0.7rem 0.85rem;
+  }
+}
