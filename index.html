@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>So sánh tính năng HUBI và LiMiVN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: "#eff6ff",
+                100: "#dbeafe",
+                500: "#2563eb",
+                600: "#1d4ed8",
+                700: "#1e40af",
+              },
+              accent: {
+                500: "#7c3aed",
+                600: "#6d28d9",
+              },
+            },
+            boxShadow: {
+              soft: "0 10px 30px rgba(15, 23, 42, 0.08)",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="bg-slate-100 text-slate-800">
+    <main class="mx-auto min-h-screen max-w-7xl px-6 py-10 lg:px-8">
+      <section id="comparison" class="rounded-3xl bg-white p-6 shadow-soft">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">
+            Bảng tổng hợp
+          </p>
+          <h1 class="mt-2 text-2xl font-semibold text-slate-900 sm:text-3xl">
+            So sánh tính năng HUBI và LiMiVN
+          </h1>
+        </div>
+
+        <div class="mt-6 overflow-hidden rounded-2xl border border-slate-200">
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-slate-200">
+              <thead class="bg-slate-50">
+                <tr class="text-left text-sm font-semibold text-slate-700">
+                  <th class="px-4 py-4">Tính năng</th>
+                  <th class="px-4 py-4">LiMiVN</th>
+                  <th class="px-4 py-4">HUBI</th>
+                </tr>
+              </thead>
+              <tbody id="comparison-body" class="divide-y divide-slate-200 bg-white"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js" defer></script>
+  </body>
+  </html>
