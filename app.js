@@ -56,6 +56,14 @@ const comparisonData = [
     priority: "Đối chiếu cách tổ chức dữ liệu xe gắn với tài xế giữa hai hệ thống.",
   },
   {
+    name: "Theo dõi điểm tài xế và lịch sử giao dịch điểm",
+    category: "Vận hành",
+    hubi: "supported",
+    limi: "supported",
+    note: "Cả hai hệ thống đều có chức năng theo dõi điểm tài xế và lịch sử giao dịch điểm.",
+    priority: "Đối chiếu chi tiết cách cộng/trừ điểm, lịch sử biến động và phạm vi sử dụng điểm trong từng hệ thống.",
+  },
+  {
     name: "Quản lý tuyến xe theo HTX",
     category: "Vận hành",
     hubi: "supported",
@@ -76,8 +84,16 @@ const comparisonData = [
     category: "Hóa đơn",
     hubi: "supported",
     limi: "supported",
-    note: "Cả hai hệ thống đều có module hóa đơn; LiMiVN gồm E-Invoice, hóa đơn GDT và đối soát hóa đơn.",
+    note: "Cả hai hệ thống đều có module hóa đơn.",
     priority: "Đối chiếu phạm vi nghiệp vụ hóa đơn, loại hóa đơn và mức độ tích hợp liên quan.",
+  },
+  {
+    name: "Hóa đơn chuyên sâu",
+    category: "Hóa đơn",
+    hubi: "supported",
+    limi: "supported",
+    note: "Cả hai hệ thống đều có nghiệp vụ hóa đơn chuyên sâu.",
+    priority: "Đối chiếu chi tiết các loại hóa đơn, trạng thái xử lý và mức độ tích hợp thực tế giữa hai hệ thống.",
   },
   {
     name: "Xuất hóa đơn",
@@ -94,6 +110,22 @@ const comparisonData = [
     limi: "partial",
     note: "HUBI có báo cáo doanh thu; LiMiVN có dashboard, thống kê và một số chỉ số doanh thu nhưng chưa thấy bộ báo cáo doanh thu chuyên sâu trong tài liệu đang đọc.",
     priority: "Bổ sung hoặc xác minh nhóm báo cáo tổng hợp doanh thu nếu cần so sánh chi tiết.",
+  },
+  {
+    name: "Đối soát ngân hàng",
+    category: "Đối soát",
+    hubi: "supported",
+    limi: "supported",
+    note: "Cả hai hệ thống đều có nghiệp vụ đối soát ngân hàng.",
+    priority: "Đối chiếu độ chi tiết của dữ liệu sao kê, kết quả đối soát và thao tác xử lý sai lệch.",
+  },
+  {
+    name: "Cấu hình nội bộ",
+    category: "Quản trị",
+    hubi: "supported",
+    limi: "supported",
+    note: "Cả hai hệ thống đều có nhóm cấu hình nội bộ.",
+    priority: "Đối chiếu phạm vi cấu hình được phép thay đổi và mức độ hoàn thiện của từng màn hình cấu hình.",
   },
   {
     name: "Tờ khai thuế",
@@ -135,6 +167,45 @@ const systemHighlights = [
   },
 ];
 
+const limiExtraFeatures = [
+  {
+    title: "Tài xế và eKYC",
+    items: [
+      "Duyệt tài khoản tài xế sau eKYC.",
+      "Quản lý trạng thái hồ sơ như chờ duyệt, từ chối, duyệt lại, tạm ngưng, mở khóa."
+    ],
+  },
+  {
+    title: "Cây xăng",
+    items: [
+      "Có thêm phần quản lý cây xăng.",
+      "Có thể theo dõi danh sách và thông tin chi tiết cây xăng.",
+      "Có thông tin liên quan đến hợp đồng của cây xăng.",
+    ],
+  },
+];
+
+const hubiExtraFeatures = [
+  {
+    title: "Chành xe",
+    items: [
+      "HUBI thể hiện mạnh hơn ở nghiệp vụ chành xe so với phạm vi thông tin hiện có của LiMiVN.",
+      "Tài xế dùng HUBI App để lên đơn hàng ngay trên app.",
+      "Trong quá trình lên đơn, tài xế có thể chọn xe và chọn tuyến.",
+      "Tuyến được phân thành 2 loại: cố định và không cố định.",
+      "Tuyến cố định được lấy từ danh sách tuyến mà HTX đã gán cho tài xế.",
+      "Sau khi lên đơn, hệ thống hỗ trợ xuất hóa đơn cho cá nhân hoặc doanh nghiệp.",
+    ],
+  },
+  {
+    title: "Ý nghĩa khi so sánh",
+    items: [
+      "Đây là điểm nghiệp vụ nổi bật của HUBI ở luồng vận hành tài xế và chành xe.",
+      "Phía LiMiVN hiện chưa có đủ thông tin app tài xế để đối chiếu chi tiết theo cùng chiều sâu."
+    ],
+  },
+];
+
 const statusMeta = {
   supported: {
     label: "Đầy đủ",
@@ -160,6 +231,8 @@ const statusMeta = {
 
 const comparisonBody = document.querySelector("#comparison-body");
 const systemCards = document.querySelector("#system-cards");
+const limiExtraFeaturesContainer = document.querySelector("#limi-extra-features");
+const hubiExtraFeaturesContainer = document.querySelector("#hubi-extra-features");
 
 function renderTable(data) {
   comparisonBody.innerHTML = data
@@ -219,5 +292,55 @@ function renderSystemCards(data) {
     .join("");
 }
 
+function renderLimiExtraFeatures(data) {
+  limiExtraFeaturesContainer.innerHTML = data
+    .map(
+      (group) => `
+        <article class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+          <h3 class="text-lg font-semibold text-slate-900">${group.title}</h3>
+          <ul class="mt-4 space-y-3 text-sm leading-6 text-slate-700">
+            ${group.items
+              .map(
+                (detail) => `
+                  <li class="flex gap-3">
+                    <span class="mt-1 h-2 w-2 shrink-0 rounded-full bg-brand-500"></span>
+                    <span>${detail}</span>
+                  </li>
+                `
+              )
+              .join("")}
+          </ul>
+        </article>
+      `
+    )
+    .join("");
+}
+
+function renderHubiExtraFeatures(data) {
+  hubiExtraFeaturesContainer.innerHTML = data
+    .map(
+      (group) => `
+        <article class="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
+          <h3 class="text-lg font-semibold text-slate-900">${group.title}</h3>
+          <ul class="mt-4 space-y-3 text-sm leading-6 text-slate-700">
+            ${group.items
+              .map(
+                (detail) => `
+                  <li class="flex gap-3">
+                    <span class="mt-1 h-2 w-2 shrink-0 rounded-full bg-emerald-500"></span>
+                    <span>${detail}</span>
+                  </li>
+                `
+              )
+              .join("")}
+          </ul>
+        </article>
+      `
+    )
+    .join("");
+}
+
 renderTable(comparisonData);
 renderSystemCards(systemHighlights);
+renderLimiExtraFeatures(limiExtraFeatures);
+renderHubiExtraFeatures(hubiExtraFeatures);
