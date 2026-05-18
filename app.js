@@ -44,7 +44,7 @@ const comparisonData = [
     category: "Đối soát",
     hubi: "supported",
     limi: "supported",
-    note: "Cả hai hệ thống đều có chức năng đối chiếu giao dịch",
+    note: "Cả hai hệ thống đều có chức năng đối chiếu giao dịch.",
     priority: "Đối chiếu độ sâu dữ liệu đối soát, trạng thái khớp và thao tác xử lý lệch.",
   },
   {
@@ -105,6 +105,36 @@ const comparisonData = [
   },
 ];
 
+const systemHighlights = [
+  {
+    system: "LiMiVN",
+    accentClass: "border-brand-100 bg-brand-50/60",
+    badgeClass: "bg-brand-100 text-brand-700",
+    summary:
+      "Hiện chưa có đủ thông tin về app tài xế của LiMiVN để có thể so sánh chi tiết tính năng với HUBI App.",
+    items: [
+      "Chưa có tài liệu hoặc mô tả đủ chi tiết về app dành cho tài xế.",
+      "Chưa thể xác định rõ luồng thao tác của tài xế trên LiMiVN.",
+      "Chưa đủ cơ sở để so sánh các tính năng chi tiết như chọn xe, chọn tuyến hoặc xuất hóa đơn.",
+    ],
+  },
+  {
+    system: "HUBI",
+    accentClass: "border-emerald-100 bg-emerald-50/60",
+    badgeClass: "bg-emerald-100 text-emerald-700",
+    summary:
+      "Luồng tài xế trên HUBI App được mô tả rõ hơn, bao gồm lên đơn hàng, chọn xe, chọn tuyến và xuất hóa đơn sau khi tạo đơn.",
+    items: [
+      "Tài xế dùng HUBI App để lên đơn hàng.",
+      "Có thể chọn xe khi lên đơn hàng.",
+      "Có thể chọn tuyến khi lên đơn hàng.",
+      "Tuyến gồm 2 loại: cố định và không cố định.",
+      "Tuyến cố định lấy từ tuyến mà HTX đã gán cho tài xế.",
+      "Sau khi lên đơn có thể xuất hóa đơn cho cá nhân hoặc doanh nghiệp.",
+    ],
+  },
+];
+
 const statusMeta = {
   supported: {
     label: "Đầy đủ",
@@ -129,6 +159,7 @@ const statusMeta = {
 };
 
 const comparisonBody = document.querySelector("#comparison-body");
+const systemCards = document.querySelector("#system-cards");
 
 function renderTable(data) {
   comparisonBody.innerHTML = data
@@ -158,4 +189,35 @@ function renderTable(data) {
     .join("");
 }
 
+function renderSystemCards(data) {
+  systemCards.innerHTML = data
+    .map(
+      (item) => `
+        <article class="rounded-2xl border p-6 ${item.accentClass}">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="text-xl font-semibold text-slate-900">${item.system}</h3>
+            <span class="rounded-full px-3 py-1 text-xs font-semibold ${item.badgeClass}">
+              Hệ thống
+            </span>
+          </div>
+          <p class="mt-3 text-sm leading-6 text-slate-600">${item.summary}</p>
+          <ul class="mt-5 space-y-3 text-sm leading-6 text-slate-700">
+            ${item.items
+              .map(
+                (detail) => `
+                  <li class="flex gap-3">
+                    <span class="mt-1 h-2 w-2 shrink-0 rounded-full bg-slate-400"></span>
+                    <span>${detail}</span>
+                  </li>
+                `
+              )
+              .join("")}
+          </ul>
+        </article>
+      `
+    )
+    .join("");
+}
+
 renderTable(comparisonData);
+renderSystemCards(systemHighlights);
